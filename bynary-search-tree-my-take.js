@@ -3,22 +3,34 @@ class Tree {
     this.value = value;
   }
 
-  insert(value) {
-    if (this.value === undefined) {
-      return (this.value = value);
+  depthFirstTraverse(type, callback) {
+    type === "pre" && callback(this.value);
+    this.left && this.left.depthFirstTraverse(type, callback);
+    type === "in" && callback(this.value);
+    this.right && this.right.depthFirstTraverse(type, callback);
+    type === "post" && callback(this.value);
+  }
+
+  contains(value, currentNode = this) {
+    if (currentNode.value === value) {
+      return true;
     }
 
-    const insertOn = (value, currentNode) => {
-      let path = value > currentNode.value ? "right" : "left";
+    const nextNode =
+      currentNode.value < value ? currentNode.right : currentNode.left;
+    if (nextNode === undefined) return false;
 
-      if (currentNode[path] !== undefined) {
-        return insertOn(value, currentNode[path]);
-      }
+    return this.contains(value, nextNode);
+  }
 
-      currentNode[path] = new Tree(value);
-    };
+  insert(value, currentNode = this) {
+    let path = value > currentNode.value ? "right" : "left";
 
-    insertOn(value, this);
+    if (currentNode[path] !== undefined) {
+      return this.insert(value, currentNode[path]);
+    }
+
+    currentNode[path] = new Tree(value);
   }
 }
 
@@ -28,12 +40,12 @@ const tree = new Tree(5);
 for (const value of [3, 6, 1, 7, 8, 4, 10, 2, 9]) tree.insert(value);
 
 /*
-5
-3 6
-1 4 7
-2   8
-        10
-       9
+     5
+  3    6
+1   4   7
+ 2       8
+          10
+         9
 */
 
 describe("Binary Search Tree", () => {
@@ -61,6 +73,14 @@ describe("Binary Search Tree", () => {
     const _pre = [];
     const _in = [];
     const _post = [];
+    /*
+     5
+  3    6
+1   4   7
+ 2       8
+          10
+         9
+*/
     tree.depthFirstTraverse("pre", value => _pre.push(value));
     tree.depthFirstTraverse("in", value => _in.push(value));
     tree.depthFirstTraverse("post", value => _post.push(value));

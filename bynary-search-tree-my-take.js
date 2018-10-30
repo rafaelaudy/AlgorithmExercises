@@ -11,6 +11,21 @@ class Tree {
     type === "post" && callback(this.value);
   }
 
+  breadthFirstTraverse(callback, currentNodes = [this]) {
+    let nextNodes = [];
+
+    currentNodes.forEach(node => {
+      if (node && node.value) {
+        callback(node.value);
+        nextNodes.push(node.left, node.right);
+      }
+    });
+
+    if (currentNodes.length > 0) {
+      this.breadthFirstTraverse(callback, nextNodes);
+    }
+  }
+
   contains(value, currentNode = this) {
     if (currentNode.value === value) {
       return true;

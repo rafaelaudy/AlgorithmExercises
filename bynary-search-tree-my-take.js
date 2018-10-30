@@ -47,6 +47,18 @@ class Tree {
 
     currentNode[path] = new Tree(value);
   }
+
+  getMinValue(currentNode = this) {
+    return currentNode.left
+      ? this.getMinValue(currentNode.left)
+      : currentNode.value;
+  }
+
+  getMaxValue(currentNode = this) {
+    return currentNode.right
+      ? this.getMaxValue(currentNode.right)
+      : currentNode.value;
+  }
 }
 
 const { assert } = require("chai");
@@ -88,14 +100,6 @@ describe("Binary Search Tree", () => {
     const _pre = [];
     const _in = [];
     const _post = [];
-    /*
-     5
-  3    6
-1   4   7
- 2       8
-          10
-         9
-*/
     tree.depthFirstTraverse("pre", value => _pre.push(value));
     tree.depthFirstTraverse("in", value => _in.push(value));
     tree.depthFirstTraverse("post", value => _post.push(value));

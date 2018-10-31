@@ -49,14 +49,12 @@ class Tree {
   }
 
   getMinValue() {
-    if (this.left)
-      return this.left.getMinValue()
+    if (this.left) return this.left.getMinValue();
     return this.value;
   }
 
   getMaxValue() {
-    if (this.right)
-      return this.right.getMaxValue()
+    if (this.right) return this.right.getMaxValue();
     return this.value;
   }
 }

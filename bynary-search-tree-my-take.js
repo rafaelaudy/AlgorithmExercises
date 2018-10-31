@@ -26,38 +26,38 @@ class Tree {
     }
   }
 
-  contains(value, currentNode = this) {
-    if (currentNode.value === value) {
+  contains(value) {
+    if (this.value === value) {
       return true;
     }
 
-    const nextNode =
-      currentNode.value < value ? currentNode.right : currentNode.left;
-    if (nextNode === undefined) return false;
+    let path = value > this.value ? "right" : "left";
 
-    return this.contains(value, nextNode);
+    if (this[path] === undefined) return false;
+
+    return this[path].contains(value);
   }
 
-  insert(value, currentNode = this) {
-    let path = value > currentNode.value ? "right" : "left";
+  insert(value) {
+    let path = value > this.value ? "right" : "left";
 
-    if (currentNode[path] !== undefined) {
-      return this.insert(value, currentNode[path]);
+    if (this[path] !== undefined) {
+      return this[path].insert(value);
     }
 
-    currentNode[path] = new Tree(value);
+    this[path] = new Tree(value);
   }
 
-  getMinValue(currentNode = this) {
-    if (currentNode.left)
-      return this.getMinValue(currentNode.left)
-    return currentNode.value;
+  getMinValue() {
+    if (this.left)
+      return this.left.getMinValue()
+    return this.value;
   }
 
-  getMaxValue(currentNode = this) {
-    if (currentNode.right)
-      return this.getMaxValue(currentNode.right)
-    return currentNode.value;
+  getMaxValue() {
+    if (this.right)
+      return this.right.getMaxValue()
+    return this.value;
   }
 }
 

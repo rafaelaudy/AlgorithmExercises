@@ -49,15 +49,15 @@ class Tree {
   }
 
   getMinValue(currentNode = this) {
-    return currentNode.left
-      ? this.getMinValue(currentNode.left)
-      : currentNode.value;
+    if (currentNode.left)
+      return this.getMinValue(currentNode.left)
+    return currentNode.value;
   }
 
   getMaxValue(currentNode = this) {
-    return currentNode.right
-      ? this.getMaxValue(currentNode.right)
-      : currentNode.value;
+    if (currentNode.right)
+      return this.getMaxValue(currentNode.right)
+    return currentNode.value;
   }
 }
 

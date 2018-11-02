@@ -4,7 +4,7 @@
   "description": "",
   "main": "stack.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha *.js"
+    "test": "mocha ./**/*.js"
   },
   "author": "",
   "license": "ISC",

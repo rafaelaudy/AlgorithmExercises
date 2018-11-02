@@ -6,14 +6,10 @@ hashCode = function(key) {
   for (i = 0; i < key.length; i++) {
     chr = key.charCodeAt(i);
     hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
+    hash |= 0;
   }
   return hash;
 };
-
-class Node {
-  constructor(key, value) {}
-}
 
 class Table {
   constructor() {
@@ -21,13 +17,11 @@ class Table {
   }
 
   hash(key) {
-    const hashedKey = hashCode(key);
-    return this.array[hashedKey];
+    return hashCode(key);
   }
 
   insert(key, value) {
-    const hashedKey = hashCode(key);
-    console.log("hash", hashedKey);
+    const hashedKey = this.hash(key);
 
     if (this.array[hashedKey] === undefined) {
       this.array[hashedKey] = [value];
@@ -36,9 +30,13 @@ class Table {
     }
   }
 
-  get(key) {}
+  get(key) {
+    return this.array[this.hash(key)];
+  }
 
-  getAll() {}
+  getAll() {
+    return this.array.reduce((acc, current) => acc.concat(current));
+  }
 }
 
 const { assert } = require("chai");
@@ -52,23 +50,17 @@ table.insert("aac", 5);
 
 describe("Hash Table", () => {
   it("Should implement hash", () => {
-    assert.equal(table.hash("abc"), 4);
-  });
-
-  it("Should implement insert", () => {
-    assert.equal(table.cells[table.hash("baa")].value, 1);
-    assert.equal(table.cells[table.hash("aba")].next.value, 3);
-    assert.equal(table.cells[table.hash("aac")].value, 5);
+    assert.equal(table.hash("abc"), 96354);
   });
 
   it("Should implement get", () => {
-    assert.equal(table.get("baa"), 1);
-    assert.equal(table.get("aba"), 3);
-    assert.equal(table.get("aac"), 5);
-    assert.equal(table.get("abc"), null);
+    assert.deepEqual(table.get("baa"), [1]);
+    assert.deepEqual(table.get("aba"), [2, 3]);
+    assert.deepEqual(table.get("aac"), [4, 5]);
+    assert.equal(table.get("abc"), undefined);
   });
 
   it("Should implement getAll", () => {
-    assert.deepEqual(table.getAll(), [[], [], [1, 3], [5], []]);
+    assert.deepEqual(table.getAll(), [4, 5, 2, 3, 1]);
   });
 });

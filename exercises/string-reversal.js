@@ -21,7 +21,9 @@ const { assert } = require("chai");
 
 describe("String Reversal", () => {
   it("Should reverse string", () => {
+    assert.equal(reverse("HelloWorld!"), "!dlroWolleH");
     assert.equal(reverse("Hello World!"), "!dlroW olleH");
+
     assert.equal(reverseAlternative("HelloWorld!"), "!dlroWolleH");
     assert.equal(reverseAlternative("Hello World!"), "!dlroW olleH");
   });

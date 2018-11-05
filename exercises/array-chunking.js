@@ -14,6 +14,15 @@ const chunk = (array, chunkSize) =>
     [[]]
   );
 
+const chunkAlternative = (array, chunkSize) => {
+  let chunks = [];
+  for (let index = 0; index < array.length; index += chunkSize) {
+    chunks.push(array.slice(index, index + chunkSize));
+  }
+
+  return chunks;
+};
+
 const { assert } = require("chai");
 
 describe("Array Chunking", () => {
@@ -21,5 +30,8 @@ describe("Array Chunking", () => {
     assert.deepEqual(chunk([1, 2, 3, 4], 2), [[1, 2], [3, 4]]);
     assert.deepEqual(chunk([1, 2, 3, 4], 3), [[1, 2, 3], [4]]);
     assert.deepEqual(chunk([1, 2, 3, 4], 5), [[1, 2, 3, 4]]);
+    assert.deepEqual(chunkAlternative([1, 2, 3, 4], 2), [[1, 2], [3, 4]]);
+    assert.deepEqual(chunkAlternative([1, 2, 3, 4], 3), [[1, 2, 3], [4]]);
+    assert.deepEqual(chunkAlternative([1, 2, 3, 4], 5), [[1, 2, 3, 4]]);
   });
 });

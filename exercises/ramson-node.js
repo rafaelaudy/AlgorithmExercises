@@ -28,6 +28,21 @@ const ransomNote = (note, magazine) => {
   return canMakeRansonNote;
 };
 
+const ransomNoteSimpler = (note, magazine) => {
+  const magazineWords = mapWords(magazine);
+  const noteWords = mapWords(note);
+
+  let canMakeRansonNote = true;
+  noteWords.forEach((noteOccurrences, key) => {
+    const magazineOccurrences = magazineWords.get(key);
+    if (!magazineOccurrences || magazineOccurrences < noteOccurrences) {
+      canMakeRansonNote = false;
+    }
+  });
+
+  return canMakeRansonNote;
+};
+
 const { assert } = require("chai");
 
 const magazine =
@@ -35,14 +50,21 @@ const magazine =
 describe("Ransom Note", () => {
   it("Should return true", () => {
     assert.equal(ransomNote("sit ad est sint", magazine), true);
+    assert.equal(ransomNoteSimpler("sit ad est sint", magazine), true);
   });
   it("Should return false", () => {
     assert.equal(ransomNote("sit ad est love", magazine), false);
+    assert.equal(ransomNoteSimpler("sit ad est love", magazine), false);
   });
   it("Should return true", () => {
     assert.equal(ransomNote("sit ad est sint in in", magazine), true);
+    assert.equal(ransomNoteSimpler("sit ad est sint in in", magazine), true);
   });
   it("Should return false", () => {
     assert.equal(ransomNote("sit ad est sint in in in in", magazine), false);
+    assert.equal(
+      ransomNoteSimpler("sit ad est sint in in in in", magazine),
+      false
+    );
   });
 });

@@ -8,6 +8,7 @@ const fibonacci = number => {
     return memoizedFibonacci;
   }
 
+  console.log("fibonnaci - calculates and memoizes ", number);
   const fibonacciResult = fibonacci(number - 1) + fibonacci(number - 2);
   memoizedFibonacciMap.set(number, fibonacciResult);
 

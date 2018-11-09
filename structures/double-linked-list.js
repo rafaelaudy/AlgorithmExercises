@@ -167,3 +167,5 @@ describe("Linked List", () => {
     assert.deepEqual(list.indexOf(4), []);
   });
 });
+
+module.exports = LinkedList;

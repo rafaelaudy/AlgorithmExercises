@@ -41,7 +41,7 @@ const _binarySearch = (sortedArray, toFind) => {
 const { assert } = require("chai");
 
 describe("Binary Search", () => {
-  it.only("Should implement binary search", () => {
+  it("Should implement binary search", () => {
     assert.equal(binarySearch([1, 2, 3, 4, 5], 0), false);
     assert.equal(binarySearch([1, 2, 3, 4, 5, 6], 6), true);
 

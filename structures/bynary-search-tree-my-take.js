@@ -57,6 +57,14 @@ class Tree {
     if (this.right) return this.right.getMaxValue();
     return this.value;
   }
+
+  getHeight() {
+    const heightLeft = this.left ? this.left.getHeight(this.left) : 0;
+    const heightRight = this.right ? this.right.getHeight(this.Right) : 0;
+
+    const biggestHeight = heightLeft > heightRight ? heightLeft : heightRight;
+    return 1 + biggestHeight;
+  }
 }
 
 const { assert } = require("chai");
@@ -92,6 +100,10 @@ describe("Binary Search Tree", () => {
     assert.equal(tree.contains(9), true);
     assert.equal(tree.contains(0), false);
     assert.equal(tree.contains(11), false);
+  });
+
+  it("Should return the height of the tree", () => {
+    assert.equal(tree.getHeight(), 6);
   });
 
   it("Should implement depthFirstTraverse", () => {

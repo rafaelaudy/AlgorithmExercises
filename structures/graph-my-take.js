@@ -47,3 +47,8 @@ describe("Graph", () => {
     assert.deepEqual(graph.rootNodes[0].adjacentNodes[0].adjacentNodes, [a]);
   });
 });
+
+module.exports = {
+  Node,
+  Graph
+};

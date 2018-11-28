@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/rafaelaudy/Structures.svg?style=svg)](https://circleci.com/gh/rafaelaudy/Structures)
+
 # Strcutures Exercises
 
 I am following this article [Data Structures in Javascript](https://medium.com/siliconwat/data-structures-in-javascript-1b9aed0ea17c) to brush up my knowledge on how to implement different structures in Javascript.

@@ -36,6 +36,25 @@ const _bubbleSort = array => {
   return array;
 };
 
+const __bubbleSort = array => {
+  let hasSwapped = true;
+
+  while (hasSwapped) {
+    hasSwapped = false;
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] > array[i + 1]) {
+        hasSwapped = true;
+        const temp = array[i];
+        array[i] = array[i + 1];
+        array[i + 1] = temp;
+      }
+    }
+  }
+
+  return array;
+};
+
 const { assert } = require("chai");
 
 describe("Bubble Sort", () => {
@@ -44,5 +63,7 @@ describe("Bubble Sort", () => {
     assert.deepEqual(bubbleSort([5, 3, 1, 2, 4]), [1, 2, 3, 4, 5]);
     assert.deepEqual(_bubbleSort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5]);
     assert.deepEqual(_bubbleSort([5, 3, 1, 2, 4]), [1, 2, 3, 4, 5]);
+    assert.deepEqual(__bubbleSort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5]);
+    assert.deepEqual(__bubbleSort([5, 3, 1, 2, 4]), [1, 2, 3, 4, 5]);
   });
 });

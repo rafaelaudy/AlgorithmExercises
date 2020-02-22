@@ -1,6 +1,6 @@
 const insertionSort = array => {
   for (let i = 0; i < array.length; i++) {
-    let = array[i];
+    let unsorted = array[i];
 
     let j = i - 1;
     for (; j > -1 && unsorted < array[j]; j--) {

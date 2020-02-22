@@ -25,6 +25,36 @@ const mergeSort = array => {
   return result;
 };
 
+const _mergeSort = array => {
+  if (array.length <= 1) {
+    return array;
+  }
+
+  const middleIndex = Math.round(array.length / 2);
+
+  const left = _mergeSort(array.slice(0, middleIndex));
+  const right = _mergeSort(array.slice(middleIndex));
+
+  const jointArray = [];
+  while (true) {
+    if (left[0] <= right[0]) {
+      jointArray.push(left.shift());
+      if (left.length === 0) {
+        jointArray.push(...right);
+        break;
+      }
+    } else {
+      jointArray.push(right.shift());
+      if (right.length === 0) {
+        jointArray.push(...left);
+        break;
+      }
+    }
+  }
+
+  return jointArray;
+};
+
 const { assert } = require("chai");
 
 describe("Merge Sort", () => {

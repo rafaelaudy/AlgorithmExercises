@@ -26,7 +26,6 @@ const _bubbleSort = array => {
       let next = array[j + 1] || current;
 
       if (current > next) {
-        shouldSort = true;
         array[j] = next;
         array[j + 1] = current;
       }

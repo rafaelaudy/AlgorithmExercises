@@ -16,6 +16,14 @@
 // "pale" "pali " false
 // "bynk" "nbik " true
 
+const setHash = (hash, string, index, value) => {
+  const char = string[index] ? string[index] : "";
+
+  hash[char] = hash[char] !== undefined ? hash[char] + value : value;
+
+  if (hash[char] === 0) delete hash[char];
+};
+
 const oneChangeTo = (string, changeTo) => {
   if (typeof string !== "string" || typeof changeTo !== "string") {
     return false;
@@ -30,14 +38,8 @@ const oneChangeTo = (string, changeTo) => {
   const length =
     string.length > changeTo.length ? string.length : changeTo.length;
   for (let i = 0; i < length; i++) {
-    const charLeft = string[i] ? string[i] : "";
-    const charRight = changeTo[i] ? changeTo[i] : "";
-
-    hash[charLeft] = hash[charLeft] !== undefined ? hash[charLeft] + 1 : 1;
-    hash[charRight] = hash[charRight] !== undefined ? hash[charRight] - 1 : -1;
-
-    if (hash[charLeft] === 0) delete hash[charLeft];
-    if (hash[charRight] === 0) delete hash[charRight];
+    setHash(hash, string, i, 1);
+    setHash(hash, changeTo, i, -1);
   }
 
   return Object.keys(hash).length < 3;

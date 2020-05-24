@@ -18,9 +18,7 @@
 
 const setHash = (hash, string, index, value) => {
   const char = string[index] ? string[index] : "";
-
   hash[char] = hash[char] !== undefined ? hash[char] + value : value;
-
   if (hash[char] === 0) delete hash[char];
 };
 

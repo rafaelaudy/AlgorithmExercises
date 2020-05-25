@@ -67,7 +67,6 @@ const zeroMatrix = (matrix) => {
           Object.keys(rowKeys0).length === rowLength ||
           Object.keys(columnKeys0).length === columnLength
         ) {
-          console.log("optimized");
           return newMatrix;
         }
       }
@@ -82,13 +81,51 @@ const zeroMatrix = (matrix) => {
   return newMatrix;
 };
 
+const zeroMatrixOptimezed = (matrix) => {
+  if (!Array.isArray(matrix) && !Array.isArray(matrix[0])) {
+    return undefined;
+  }
+
+  const rowLength = matrix.length;
+  const columnLength = matrix[0].length;
+  let isAll0 = false;
+  const rowKeys0 = {};
+  const columnKeys0 = {};
+
+  for (let c = 0; c < columnLength; c++) {
+    for (let r = 0; r < rowLength; r++) {
+      if (matrix[r][c] === 0) {
+        rowKeys0[r] = 1;
+        columnKeys0[c] = 1;
+
+        if (
+          Object.keys(rowKeys0).length === rowLength ||
+          Object.keys(columnKeys0).length === columnLength
+        ) {
+          isAll0 = true;
+        }
+      }
+    }
+  }
+
+  for (let c = 0; c < columnLength; c++) {
+    for (let r = 0; r < rowLength; r++) {
+      if (rowKeys0[r] || columnKeys0[c] || isAll0) {
+        matrix[r][c] = 0;
+      }
+    }
+  }
+
+  return matrix;
+};
+
 const { assert } = require("chai");
 
 describe("zeroMatrix", () => {
   it.only("Should implement zeroMatrix", () => {
     assert.equal(
       JSON.stringify(
-        zeroMatrix([
+        zeroMatrixOptimezed([
           [0, 1],
           [0, 1],
           [1, 1],
@@ -107,7 +144,7 @@ describe("zeroMatrix", () => {
 
     assert.equal(
       JSON.stringify(
-        zeroMatrix([
+        zeroMatrixOptimezed([
           [0, 0],
           [0, 1],
           [1, 1],
@@ -126,7 +163,7 @@ describe("zeroMatrix", () => {
 
     assert.equal(
       JSON.stringify(
-        zeroMatrix([
+        zeroMatrixOptimezed([
           [0, 0],
           [0, 0],
           [0, 0],
@@ -145,7 +182,7 @@ describe("zeroMatrix", () => {
 
     assert.equal(
       JSON.stringify(
-        zeroMatrix([
+        zeroMatrixOptimezed([
           [0, 1, 1, 1, 1],
           [0, 0, 1, 1, 1],
           [1, 1, 1, 1, 1],

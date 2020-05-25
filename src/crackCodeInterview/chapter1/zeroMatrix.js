@@ -103,6 +103,7 @@ const zeroMatrixOptimezed = (matrix) => {
           Object.keys(columnKeys0).length === columnLength
         ) {
           isAll0 = true;
+          break;
         }
       }
     }

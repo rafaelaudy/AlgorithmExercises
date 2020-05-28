@@ -85,7 +85,7 @@ const isPermutationAlternative = (string1, string2) => {
 const { assert } = require("chai");
 
 describe("isPermutation", () => {
-  it.only("Should implement isPermutation", () => {
+  it("Should implement isPermutation", () => {
     assert.equal(isPermutation("123", 123), false);
     assert.equal(isPermutation("abcd", "bcad"), true);
     assert.equal(isPermutation("abcdaa", "bacada"), true);

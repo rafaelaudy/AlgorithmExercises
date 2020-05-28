@@ -56,7 +56,7 @@ const urlFyAlternative = (string) => {
 const { assert } = require("chai");
 
 describe("urlFy", () => {
-  it.only("Should implement urlFy", () => {
+  it("Should implement urlFy", () => {
     assert.equal(
       urlFy("    lala test url   cake  "),
       "lala%20test%20url%20%20%20cake"

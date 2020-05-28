@@ -47,7 +47,7 @@ const stringCompression = (string) => {
 const { assert } = require("chai");
 
 describe("stringCompression", () => {
-  it.only("Should implement stringCompression", () => {
+  it("Should implement stringCompression", () => {
     assert.equal(stringCompression("aabcaaad"), "aabcaaad");
     assert.equal(stringCompression("aabbbbcaaaaaad"), "2a4b1c6a1d");
     assert.equal(stringCompression("     aabbbbcaaaaaad"), "2a4b1c6a1d");

@@ -71,7 +71,7 @@ const isPalindromePermutationAlternative = (string) => {
 const { assert } = require("chai");
 
 describe("isPalindromePermutation", () => {
-  it.only("Should implement isPalindromePermutation", () => {
+  it("Should implement isPalindromePermutation", () => {
     assert.equal(isPalindromePermutation("taco bell"), false);
     assert.equal(isPalindromePermutation("tacao taco"), true);
     assert.equal(isPalindromePermutation("taco taco"), true);

@@ -46,7 +46,7 @@ const oneChangeTo = (string, changeTo) => {
 const { assert } = require("chai");
 
 describe("oneChangeTo", () => {
-  it.only("Should implement oneChangeTo", () => {
+  it("Should implement oneChangeTo", () => {
     assert.equal(oneChangeTo("pale", "ple"), true);
     assert.equal(oneChangeTo("pales", "pale"), true);
     assert.equal(oneChangeTo("pale", "bale"), true);

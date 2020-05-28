@@ -72,7 +72,7 @@ const rotateMatrix = (matrix) => {
 const { assert } = require("chai");
 
 describe("rotateMatrix", () => {
-  it.only("Should implement rotateMatrix", () => {
+  it("Should implement rotateMatrix", () => {
     //  .  1  .  .  .  .
     //  .  .  2  .  .  .
     //  .  .  3  .  .  .

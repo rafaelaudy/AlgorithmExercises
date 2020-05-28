@@ -15,7 +15,7 @@ const isStringRotation = (string, rotation) => {
 const { assert } = require("chai");
 
 describe("isStringRotation", () => {
-  it.only("Should implement isStringRotation", () => {
+  it("Should implement isStringRotation", () => {
     assert.equal(isStringRotation("labrador", "dorlabra"), true);
     assert.equal(isStringRotation("labrador", "dorlabrar"), false);
     assert.equal(isStringRotation("labrador", "doralbra"), false);

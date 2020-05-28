@@ -24,7 +24,7 @@ const allUniqueChars = (string) => {
 const { assert } = require("chai");
 
 describe("isUnique", () => {
-  it.only("Should implement isUnique", () => {
+  it("Should implement isUnique", () => {
     assert.equal(allUniqueChars("abcd"), true);
     assert.equal(allUniqueChars("abccd"), false);
     assert.equal(allUniqueChars("bhjjb"), false);

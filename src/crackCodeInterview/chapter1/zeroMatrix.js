@@ -123,7 +123,7 @@ const zeroMatrixOptimezed = (matrix) => {
 const { assert } = require("chai");
 
 describe("zeroMatrix", () => {
-  it.only("Should implement zeroMatrix", () => {
+  it("Should implement zeroMatrix", () => {
     assert.equal(
       JSON.stringify(
         zeroMatrixOptimezed([

@@ -40,7 +40,7 @@ class Queue {
 
 const { assert } = require("chai");
 
-describe.only("Queue", () => {
+describe("Queue", () => {
   it("Should add", () => {
     const queue = new Queue();
     queue.add(1);

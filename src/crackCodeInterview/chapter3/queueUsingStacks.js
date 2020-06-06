@@ -63,7 +63,7 @@ class QueueUsingStacks {
 
 const { assert } = require("chai");
 
-describe.only("QueueUsingStacks", () => {
+describe("QueueUsingStacks", () => {
   it("Should add", () => {
     const queueUsingStacks = new QueueUsingStacks();
     queueUsingStacks.add(1);

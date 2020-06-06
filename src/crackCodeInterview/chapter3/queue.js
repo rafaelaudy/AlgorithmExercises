@@ -5,11 +5,6 @@ class Node {
 }
 
 class Queue {
-  constructor() {
-    const first = undefined;
-    const last = undefined;
-  }
-
   remove() {
     if (!this.last) {
       return undefined;
@@ -25,10 +20,13 @@ class Queue {
 
     if (!this.first) {
       this.first = newValue;
+      this.last = newValue;
+      return;
     }
 
-    newValue.prev = this.last;
-    this.last = newValue;
+    newValue.next = this.first;
+    this.first.prev = newValue;
+    this.first = newValue;
   }
 
   peek() {
@@ -42,34 +40,33 @@ class Queue {
 
 const { assert } = require("chai");
 
-describe("Queue", () => {
+describe.only("Queue", () => {
   it("Should add", () => {
     const queue = new Queue();
     queue.add(1);
     assert.equal(queue.peek(), 1);
     queue.add(2);
-    assert.equal(queue.peek(), 2);
+    assert.equal(queue.peek(), 1);
     queue.add(3);
-    assert.equal(queue.peek(), 3);
+    assert.equal(queue.peek(), 1);
   });
   it("Should remove", () => {
     const queue = new Queue();
     queue.add(1);
     queue.add(2);
     queue.add(3);
-    assert.equal(queue.remove(), 3);
-    assert.equal(queue.remove(), 2);
     assert.equal(queue.remove(), 1);
+    assert.equal(queue.remove(), 2);
+    assert.equal(queue.remove(), 3);
   });
   it("Should peek", () => {
     const queue = new Queue();
     queue.add(1);
     assert.equal(queue.peek(), 1);
     queue.add(2);
-    assert.equal(queue.peek(), 2);
-    assert.equal(queue.peek(), 2);
+    assert.equal(queue.peek(), 1);
     queue.add(3);
-    assert.equal(queue.peek(), 3);
+    assert.equal(queue.peek(), 1);
   });
   it("Should isEmpty", () => {
     const queue = new Queue();

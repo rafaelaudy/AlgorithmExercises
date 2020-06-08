@@ -89,7 +89,7 @@ class StackOfPlates {
 
 const { assert } = require("chai");
 
-describe.only("StackOfPlates", () => {
+describe("StackOfPlates", () => {
   it("Should pop", () => {
     const stackOfPlates = new StackOfPlates();
     stackOfPlates.push(1);

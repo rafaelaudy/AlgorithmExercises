@@ -48,6 +48,10 @@ class LinkedList {
   }
 
   removeTail() {
+    if (!this.tail) {
+      return undefined;
+    }
+
     const value = this.tail.value;
     this.tail = this.tail.prev;
 

@@ -19,7 +19,28 @@ class Graph {
   }
 }
 
-const depthFirstTraversal = () => {};
+const depthFirstTraversal = (
+  nodes,
+  traversedHash = {},
+  traversedResult = []
+) => {
+  nodes.map((node) => {
+    const value = node.value;
+    if (traversedHash[value]) {
+      return;
+    }
+
+    traversedHash[value] = 1;
+    traversedResult.push(value);
+
+    depthFirstTraversal(node.childreen, traversedHash, traversedResult);
+  });
+
+  return traversedResult;
+};
+
+// for each children
+// check hash
 
 const breathFirstTraversal = () => {};
 
@@ -44,6 +65,7 @@ const prepareGraph = () => {
   const d = new Node("d");
   const e = new Node("e");
   const f = new Node("f");
+  const g = new Node("g");
 
   graph.addRootNode(a);
   a.addChild(b);
@@ -62,23 +84,39 @@ const prepareGraph = () => {
   d.addChild(e);
 
   graph.addRootNode(e);
+  e.addChild(g);
+
   graph.addRootNode(f);
 
   return graph;
 };
 
+// a -> b
+//      e
+//      f
+// b -> d
+//      e
+// c -> b
+// d -> c
+//      e
+// e -> g
+// f ->
+
 describe("Graph", () => {
-  it("Should do depthFirstTraversal", () => {
-    const depthFirstTraversalResult = ["a", "b", "c", "d", "e", "f", "g"];
+  it.only("Should do depthFirstTraversal", () => {
+    const depthFirstTraversalResult = ["a", "b", "d", "c", "e", "g", "f"];
     const graph = prepareGraph();
-    // assert.deepEqual(depthFirstTraversal(graph), depthFirstTraversalResult);
+    assert.deepEqual(
+      depthFirstTraversal(graph.rootNodes),
+      depthFirstTraversalResult
+    );
   });
 
-  it("Should do breathFirstTraversal", () => {
-    const breathFirstTraversalResult = ["d", "b", "a", "c", "f", "e", "g"];
-    const graph = prepareGraph();
-    // assert.deepEqual(breathFirstTraversal(graph), breathFirstTraversalResult);
-  });
+  // it("Should do breathFirstTraversal", () => {
+  //   const breathFirstTraversalResult = ["d", "b", "a", "c", "f", "e", "g"];
+  //   const graph = prepareGraph();
+  //   assert.deepEqual(breathFirstTraversal(graph), breathFirstTraversalResult);
+  // });
 });
 
 module.exports = {

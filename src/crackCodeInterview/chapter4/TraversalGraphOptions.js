@@ -39,10 +39,53 @@ const depthFirstTraversal = (
   return traversedResult;
 };
 
-// for each children
-// check hash
+// for each node
+// check in hash
+//    return
+// add to hash
+// add to results
+// add all childreen to array
+// call
 
-const breathFirstTraversal = () => {};
+// a -> b
+//      e
+//      f
+// b -> d
+//      e
+// c -> b
+// d -> c
+//      e
+// e -> g
+// f ->
+//      g -> h
+
+const breathFirstTraversal = (
+  nodes,
+  traversedHash = {},
+  traversedResult = []
+) => {
+  if (!nodes.length) {
+    return;
+  }
+
+  let nextIterationNodes = [];
+  nodes.map((node) => {
+    const value = node.value;
+    if (traversedHash[value]) {
+      return;
+    }
+
+    traversedHash[value] = 1;
+    traversedResult.push(value);
+
+    if (node.childreen) {
+      nextIterationNodes = [...nextIterationNodes, ...node.childreen];
+    }
+  });
+
+  breathFirstTraversal(nextIterationNodes, traversedHash, traversedResult);
+  return traversedResult;
+};
 
 const { assert } = require("chai");
 
@@ -54,8 +97,9 @@ const { assert } = require("chai");
 // c -> b
 // d -> c
 //      e
-// e ->
+// e -> g
 // f ->
+//      g -> h
 
 const prepareGraph = () => {
   const graph = new Graph();
@@ -66,6 +110,7 @@ const prepareGraph = () => {
   const e = new Node("e");
   const f = new Node("f");
   const g = new Node("g");
+  const h = new Node("h");
 
   graph.addRootNode(a);
   a.addChild(b);
@@ -88,6 +133,8 @@ const prepareGraph = () => {
 
   graph.addRootNode(f);
 
+  g.addChild(h);
+
   return graph;
 };
 
@@ -101,10 +148,11 @@ const prepareGraph = () => {
 //      e
 // e -> g
 // f ->
+//      g -> h
 
 describe("Graph", () => {
-  it.only("Should do depthFirstTraversal", () => {
-    const depthFirstTraversalResult = ["a", "b", "d", "c", "e", "g", "f"];
+  it("Should do depthFirstTraversal", () => {
+    const depthFirstTraversalResult = ["a", "b", "d", "c", "e", "g", "h", "f"];
     const graph = prepareGraph();
     assert.deepEqual(
       depthFirstTraversal(graph.rootNodes),
@@ -112,11 +160,14 @@ describe("Graph", () => {
     );
   });
 
-  // it("Should do breathFirstTraversal", () => {
-  //   const breathFirstTraversalResult = ["d", "b", "a", "c", "f", "e", "g"];
-  //   const graph = prepareGraph();
-  //   assert.deepEqual(breathFirstTraversal(graph), breathFirstTraversalResult);
-  // });
+  it("Should do breathFirstTraversal", () => {
+    const breathFirstTraversalResult = ["a", "b", "c", "d", "e", "f", "g", "h"];
+    const graph = prepareGraph();
+    assert.deepEqual(
+      breathFirstTraversal(graph.rootNodes),
+      breathFirstTraversalResult
+    );
+  });
 });
 
 module.exports = {

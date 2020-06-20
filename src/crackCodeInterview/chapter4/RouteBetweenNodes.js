@@ -1,12 +1,12 @@
 class Node {
   constructor(value) {
     this.value = value;
-    this.adjacent = [];
+    this.adjacents = [];
   }
 
   addAdjacent(node) {
-    this.adjacent.push(node);
-    node.adjacent.push(this);
+    this.adjacents.push(node);
+    node.adjacents.push(this);
   }
 }
 
@@ -20,67 +20,83 @@ class Graph {
   }
 }
 
-// fromA
+// queue nodeA
 
-//
-// for each adjacent
-//    is fromB
-//        return aPath + b
-//    is in hashA
-//        break
-//    add to hashA with path
-//    add children to next batchA
+// while something on queue {
+//    add to hash : parent hash + value
+//    check if it is nodeB
+//      break
+//    dequeue
+//    for each child
+//      enqueue
+// }
 
-// for each adjacent
-//    is in hashA?
-//        return aPath + bPath
-//    is in hashB
-//        break
-//    add to hashB with path
-//    add children to next batchB
+// return hash
 
-// fromB
-const routeBetweenNodes = (nodeA, nodeb) => {};
+const routeBetweenNodes = (nodeA, nodeB) => {
+  const toVisitQueue = [];
+  const pathHashMap = {};
+  toVisitQueue.unshift(nodeA);
+  pathHashMap[nodeA.value] = [nodeA];
+
+  while (toVisitQueue.length > 0) {
+    const current = toVisitQueue.pop();
+
+    if (current.value === nodeB.value) {
+      return pathHashMap[current.value];
+    }
+
+    current.adjacents.map((adjacent) => {
+      const parentPath = pathHashMap[current.value];
+
+      if (pathHashMap[adjacent.value]) return;
+
+      toVisitQueue.unshift({ ...adjacent, parent: current });
+      pathHashMap[adjacent.value] = [...parentPath, adjacent];
+    });
+  }
+};
 
 const { assert } = require("chai");
 
 // a -  b
 //      e
 //      f
-//      i
 // b -  d
 //      e
 // c -  b
 // d -  c
 //      e
 // e -  g
-// f -
 //      g -  h
-//              - j
-// i -  h
+//              - i
+// f -
 
-// a - b - d - e - g - h - j
-// a - e - g - h - j
-// a - f - g - h - j
-// a - i - h - j
+// a -> i
+
+// a - b
+//        d
+
+// a - e
+// a - f
+
+let a, b, c, d, e, f, g, h, i;
 
 const prepareGraph = () => {
   const graph = new Graph();
-  const a = new Node("a");
-  const b = new Node("b");
-  const c = new Node("c");
-  const d = new Node("d");
-  const e = new Node("e");
-  const f = new Node("f");
-  const g = new Node("g");
-  const h = new Node("h");
-  const i = new Node("i");
+  a = new Node("a");
+  b = new Node("b");
+  c = new Node("c");
+  d = new Node("d");
+  e = new Node("e");
+  f = new Node("f");
+  g = new Node("g");
+  h = new Node("h");
+  i = new Node("i");
 
   graph.addRootNode(a);
   a.addAdjacent(b);
   a.addAdjacent(e);
-  a.addAdjacent(f);
-  a.addAdjacent(i);
 
   graph.addRootNode(b);
   b.addAdjacent(d);
@@ -96,24 +112,34 @@ const prepareGraph = () => {
   graph.addRootNode(e);
   e.addAdjacent(g);
 
-  graph.addRootNode(f);
-
   g.addAdjacent(h);
+  h.addAdjacent(i);
 
-  graph.addRootNode(i);
-  i.addAdjacent(h);
+  graph.addRootNode(f);
 
   return graph;
 };
 
 describe("Graph", () => {
+  beforeEach(prepareGraph);
+
   it("Should do routeBetweenNodes", () => {
-    // const routeBetweenNodesResult = ["a", "b", "d", "c", "e", "g", "h", "f"];
-    // const graph = prepareGraph();
-    // assert.deepEqual(
-    //   routeBetweenNodes(graph.rootNodes),
-    //   routeBetweenNodesResult
-    // );
+    let routeBetweenNodesResult = ["a", "e", "g", "h", "i"];
+    assert.deepEqual(
+      routeBetweenNodes(a, i).map((node) => node.value),
+      routeBetweenNodesResult
+    );
+
+    routeBetweenNodesResult = ["a", "h", "i"];
+    a.addAdjacent(h);
+    assert.deepEqual(
+      routeBetweenNodes(a, i).map((node) => node.value),
+      routeBetweenNodesResult
+    );
+  });
+
+  it("Should return undefined if no routeBetweenNodes", () => {
+    assert.isUndefined(routeBetweenNodes(a, f));
   });
 });
 

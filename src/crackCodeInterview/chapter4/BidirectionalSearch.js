@@ -38,7 +38,65 @@ class Graph {
 
 //    same for B
 
-const bidirectionalSearch = (nodeA, nodeB) => {};
+const dive1Level = (
+  currentSideQueue,
+  pathCurrentSide,
+  pathFromOppositeSideHash,
+  isFromA
+) => {
+  if (currentSideQueue.length === 0) {
+    return;
+  }
+  const current = currentSideQueue.pop();
+  const visitedValues = Object.keys(pathFromOppositeSideHash);
+  if (visitedValues.includes(current.value)) {
+    const leftPath = isFromA
+      ? pathCurrentSide[current.value]
+      : pathFromOppositeSideHash[current.value];
+    const rightPath = isFromA
+      ? pathFromOppositeSideHash[current.value]
+      : pathCurrentSide[current.value];
+    rightPath.pop();
+    return [...leftPath, ...rightPath.reverse()];
+  }
+
+  current.adjacents.map((adjacent) => {
+    if (pathCurrentSide[adjacent.value]) {
+      return;
+    }
+
+    pathCurrentSide[adjacent.value] = [
+      ...pathCurrentSide[current.value],
+      adjacent,
+    ];
+
+    currentSideQueue.unshift(adjacent);
+  });
+
+  return;
+};
+
+const bidirectionalSearch = (nodeA, nodeB) => {
+  const queueA = [nodeA];
+  const queueB = [nodeB];
+  const pathFromAHash = {};
+  const pathFromBHash = {};
+  pathFromAHash[nodeA.value] = [nodeA];
+  pathFromBHash[nodeB.value] = [nodeB];
+  let foundPath;
+
+  while (queueA.length || queueB.length) {
+    foundPath = dive1Level(queueA, pathFromAHash, pathFromBHash, true);
+    if (foundPath) {
+      return foundPath;
+    }
+
+    foundPath = dive1Level(queueB, pathFromBHash, pathFromAHash, false);
+    if (foundPath) {
+      return foundPath;
+    }
+  }
+};
 
 const { assert } = require("chai");
 
@@ -107,21 +165,21 @@ describe("Graph", () => {
   beforeEach(prepareGraph);
 
   it("Should do bidirectionalSearch", () => {
-    // let bidirectionalSearchResult = ["a", "e", "g", "h", "i"];
-    // assert.deepEqual(
-    //   bidirectionalSearch(a, i).map((node) => node.value),
-    //   bidirectionalSearchResult
-    // );
-    // bidirectionalSearchResult = ["a", "h", "i"];
-    // a.addAdjacent(h);
-    // assert.deepEqual(
-    //   bidirectionalSearch(a, i).map((node) => node.value),
-    //   bidirectionalSearchResult
-    // );
+    let bidirectionalSearchResult = ["a", "e", "g", "h", "i"];
+    assert.deepEqual(
+      bidirectionalSearch(a, i).map((node) => node.value),
+      bidirectionalSearchResult
+    );
+    bidirectionalSearchResult = ["a", "h", "i"];
+    a.addAdjacent(h);
+    assert.deepEqual(
+      bidirectionalSearch(a, i).map((node) => node.value),
+      bidirectionalSearchResult
+    );
   });
 
   it("Should return undefined if no bidirectionalSearch", () => {
-    // assert.isUndefined(bidirectionalSearch(a, f));
+    assert.isUndefined(bidirectionalSearch(a, f));
   });
 });
 

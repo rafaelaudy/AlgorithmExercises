@@ -8,8 +8,8 @@ class Node {
 
 //              5
 //     2                  8
-//  1     3            7     9
-//           4      6           10
+//  1     3          6         9
+//           4          7         10
 
 // if length === 0
 //    return
@@ -21,7 +21,7 @@ class Node {
 // this(arrayLeft, middleElement, isLeft)
 // this(arrayRight, middleElement, isRight)
 
-const minimalTree = (sortedArray, parent, isLeft) => {
+const toMinimalTree = (sortedArray, parent, isLeft) => {
   if (!Array.isArray(sortedArray)) {
     throw new Error("Not a valid array");
   }
@@ -32,8 +32,8 @@ const minimalTree = (sortedArray, parent, isLeft) => {
 
   const middleElementIndex =
     sortedArray.length % 2 === 0
-      ? sortedArray.length / 2
-      : sortedArray.length - 1 / 2;
+      ? sortedArray.length / 2 - 1
+      : (sortedArray.length - 1) / 2;
   const middleValue = sortedArray[middleElementIndex];
   const middleElement = new Node(middleValue);
   const leftArray = sortedArray.slice(0, middleElementIndex);
@@ -44,27 +44,31 @@ const minimalTree = (sortedArray, parent, isLeft) => {
     else parent.right = middleElement;
   }
 
-  minimalTree(leftArray, middleElement, true);
-  minimalTree(rightArray, middleElement, false);
+  toMinimalTree(leftArray, middleElement, true);
+  toMinimalTree(rightArray, middleElement, false);
 
   return middleElement;
 };
 
-// const { assert } = require("chai");
+const { assert } = require("chai");
 
-// describe("minimal tree", () => {
-//   beforeEach(prepareGraph);
-
-//   it("Should do map array to minimal tree", () => {
-//     let orderedArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-//     assert.deepEqual(toMinimalTree(orderedArray), bidirectionalSearchResult);
-//   });
-
-//   it("Should return undefined if no bidirectionalSearch", () => {
-//     assert.isUndefined(bidirectionalSearch(a, f));
-//   });
-// });
+describe("to minimal tree", () => {
+  it("Should do map array to minimal tree", () => {
+    let orderedArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const rootNode = toMinimalTree(orderedArray);
+    assert.deepEqual(rootNode.value, 5);
+    assert.deepEqual(rootNode.left.value, 2);
+    assert.deepEqual(rootNode.right.value, 8);
+    assert.deepEqual(rootNode.left.left.value, 1);
+    assert.deepEqual(rootNode.left.right.value, 3);
+    assert.deepEqual(rootNode.left.right.right.value, 4);
+    assert.deepEqual(rootNode.right.left.value, 6);
+    assert.deepEqual(rootNode.right.right.value, 9);
+    assert.deepEqual(rootNode.right.left.right.value, 7);
+    assert.deepEqual(rootNode.right.right.right.value, 10);
+  });
+});
 
 module.exports = {
-  minimalTree,
+  toMinimalTree,
 };

@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/rafaelaudy/Structures.svg?style=svg)](https://circleci.com/gh/rafaelaudy/Structures)
+[![CircleCI](https://circleci.com/gh/rafaelaudy/AlgorithmExercises.svg?style=svg)](https://circleci.com/gh/rafaelaudy/AlgorithmExercises)
 
 # Algorithm Exercises
 

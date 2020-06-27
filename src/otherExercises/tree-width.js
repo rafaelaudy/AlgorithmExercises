@@ -1,15 +1,15 @@
-const Node = require("../structures/tree-my-take");
+const Node = require("../structureImplementations/tree");
 
-const treeWidths = node => {
+const treeWidths = (node) => {
   if (!node || !node.children) return [0];
 
   const widtch = [1];
 
-  const getChildren = nodes => {
+  const getChildren = (nodes) => {
     if (nodes.length < 1) return;
 
     let nextLevelNodes = [];
-    nodes.map(current => {
+    nodes.map((current) => {
       nextLevelNodes = current.children
         ? [...nextLevelNodes, ...current.children]
         : nextLevelNodes;
@@ -24,7 +24,7 @@ const treeWidths = node => {
   return widtch;
 };
 
-const treeWidthMoreElegant = node => {
+const treeWidthMoreElegant = (node) => {
   let nodes = [node, "nextLevel"];
   let width = [];
   let counter = 0;

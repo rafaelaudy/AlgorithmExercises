@@ -1,4 +1,4 @@
-const Queue = require("../structures/queue-my-take");
+const Queue = require("../structureImplementations/queue");
 
 const weave = (queue, toConcatQueue) => {
   const weavedQueue = new Queue();

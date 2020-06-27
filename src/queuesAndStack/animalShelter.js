@@ -1,4 +1,4 @@
-const LinkedList = require("../chapter2/linkedList");
+const LinkedList = require("../linkedListsExercises/linkedList");
 
 // c d c d d
 

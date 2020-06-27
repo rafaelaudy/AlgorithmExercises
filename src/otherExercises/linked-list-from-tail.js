@@ -1,4 +1,4 @@
-const LinkedList = require("../structures/double-linked-list");
+const LinkedList = require("../structureImplementations/double-linked-list");
 
 const moveToHeadBy = (node, moveBy) => {
   for (let index = 0; index < moveBy; index++) {

@@ -1,6 +1,6 @@
-const LinkedList = require("../structures/double-linked-list");
+const LinkedList = require("../structureImplementations/double-linked-list");
 
-const midpoint = chain => {
+const midpoint = (chain) => {
   let middle = chain.head;
   let last = chain.head.prev.prev;
 

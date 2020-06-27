@@ -1,8 +1,8 @@
-const Node = require("../structures/tree-my-take");
+const Node = require("../structureImplementations/tree");
 
 const treeHeights = (node, depth = 1, heights = []) => {
   if (node.children.length > 0)
-    node.children.map(child => {
+    node.children.map((child) => {
       treeHeights(child, depth + 1, heights);
     });
   else heights.push(depth);

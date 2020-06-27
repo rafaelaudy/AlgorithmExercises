@@ -42,3 +42,5 @@ describe("Queues", () => {
     assert.equal(queue.dequeue(), 1);
   });
 });
+
+module.exports = Queue;

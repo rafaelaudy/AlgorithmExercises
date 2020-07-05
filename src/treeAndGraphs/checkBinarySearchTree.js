@@ -27,20 +27,52 @@ class Node {
   }
 }
 
+class _BSTNode {
+  constructor(node, parentPath) {
+    this.node = node;
+    this.parentPath = parentPath;
+  }
+}
+
+class _BSTPath {
+  constructor(value, isLeftFromParent) {
+    this.value = value;
+    this.isLeftFromParent = isLeftFromParent;
+  }
+}
+
 const checkBinarySearchTree = (node) => {
-  const nodeQueue = [node];
+  const nodeQueue = [new _BSTNode(node, [])];
+  const pushValue = (nodeToPush, current, isLeftFromParent) => {
+    if (nodeToPush)
+      nodeQueue.push(
+        new _BSTNode(nodeToPush, [
+          ...current.parentPath,
+          new _BSTPath(current.node.value, isLeftFromParent),
+        ])
+      );
+  };
+
+  const checkPrevious = (current) => {
+    const currentValue = current.node.value;
+
+    return current.parentPath.some((parent) => {
+      return parent.isLeftFromParent
+        ? currentValue < parent.value
+        : currentValue > parent.value;
+    });
+  };
 
   while (nodeQueue.length) {
     const current = nodeQueue.pop();
-    if (
-      (current.left && current.left.value >= current.value) ||
-      (current.right && current.right.value <= current.value)
-    ) {
+
+    if (checkPrevious(current)) {
       return false;
     }
 
-    if (current.left) nodeQueue.push(current.left);
-    if (current.right) nodeQueue.push(current.right);
+    const currentNode = current.node;
+    pushValue(currentNode.left, current, true);
+    pushValue(currentNode.right, current);
   }
 
   return true;
@@ -74,15 +106,15 @@ const prepareGraph = () => {
 describe("Tree", () => {
   beforeEach(prepareGraph);
 
-  it("Should do checkBinarySearchTree", () => {
-    assert.isTrue(checkBinarySearchTree(prepareGraph()));
-  });
-
-  // it("Should return false if semi balanced", () => {
-  //   const node5 = prepareGraph();
-  //   node5.right.right.right.left = new Node(1);
-  //   assert.isFalse(checkBinarySearchTree(node5));
+  // it("Should do checkBinarySearchTree", () => {
+  //   assert.isTrue(checkBinarySearchTree(prepareGraph()));
   // });
+
+  it("Should return false if semi balanced", () => {
+    const node5 = prepareGraph();
+    node5.right.right.right.left = new Node(1);
+    assert.isFalse(checkBinarySearchTree(node5));
+  });
 
   it("Should return false if not balanced", () => {
     const node5 = prepareGraph();

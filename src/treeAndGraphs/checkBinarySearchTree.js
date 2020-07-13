@@ -58,8 +58,8 @@ const checkBinarySearchTree = (node) => {
 
     return current.parentPath.some((parent) => {
       return parent.isLeftFromParent
-        ? currentValue < parent.value
-        : currentValue > parent.value;
+        ? currentValue > parent.value
+        : currentValue < parent.value;
     });
   };
 
@@ -106,9 +106,9 @@ const prepareGraph = () => {
 describe("Tree", () => {
   beforeEach(prepareGraph);
 
-  // it("Should do checkBinarySearchTree", () => {
-  //   assert.isTrue(checkBinarySearchTree(prepareGraph()));
-  // });
+  it("Should do checkBinarySearchTree", () => {
+    assert.isTrue(checkBinarySearchTree(prepareGraph()));
+  });
 
   it("Should return false if semi balanced", () => {
     const node5 = prepareGraph();

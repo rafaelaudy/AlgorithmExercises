@@ -12,15 +12,6 @@
 // c,d,a,b,e
 // c,d,a,b,e,f
 
-// a ---depends on---> b,d
-// b ---depends on---> d
-// c ---depends on--->
-// d ---depends on---> c
-// e ---depends on--->
-// f ---depends on---> b,a
-
-// c,d,b,a,e,f
-
 // project not in queue
 //      add to bottom of queue
 
@@ -42,33 +33,65 @@ class Project {
 const buildOrder = (projects) => {
   const buildOrder = [];
   const isProjectOnQueue = (toFind) =>
-    buildOrder.find(({ name }) => name === toFind);
+    buildOrder.indexOf(({ name }) => name === toFind);
 
-  for (project in projects) {
-    const isProjectAlreadyOnQueue = isProjectOnQueue(project.name);
-    if (!isProjectAlreadyOnQueue) {
-      // add to the bottom
+  projects.forEach((project) => {
+    console.log(buildOrder);
+    const projectQueueIndex = isProjectOnQueue(project.name);
+    if (projectQueueIndex === -1) {
+      buildOrder.push(project);
     }
 
-    for (dependency in projects.dependencies) {
-      const isDependencyAlreadyOnQueue = isProjectOnQueue(dependency.name);
-      if (!isDependencyAlreadyOnQueue) {
-        // add to the top
+    project.dependencies.forEach((dependency) => {
+      const dependencyQueueIndex = isProjectOnQueue(dependency.name);
+      if (dependencyQueueIndex === -1) {
+        buildOrder.unshift(dependency);
       }
 
-      if (isDependencyAlreadyOnQueue && isProjectAlreadyOnQueue) {
-        // move dependency before project
+      if (dependencyQueueIndex !== -1 && projectQueueIndex !== -1) {
+        buildOrder = [
+          ...buildOrder.slice(0, projectQueueIndex),
+          dependency,
+          project,
+          ...buildOrder.slice(
+            projectQueueIndex + 1,
+            dependencyQueueIndex - projectQueueIndex
+          ),
+          ...buildOrder.slice(dependencyQueueIndex + 1),
+        ];
       }
-    }
-  }
+    });
+  });
+
+  return buildOrder;
 };
 
 const { assert } = require("chai");
 
-const prepareProjects = () => {};
+// a ---depends on---> b,d
+// b ---depends on---> d
+// c ---depends on--->
+// d ---depends on---> c
+// e ---depends on--->
+// f ---depends on---> b,a
+
+// c,d,b,a,e,f
+
+const prepareProjects = () => {
+  const e = new Project("e", []);
+  const c = new Project("c", []);
+  const d = new Project("d", [c]);
+  const b = new Project("b", [d]);
+  const a = new Project("a", [b, d]);
+  const f = new Project("f", [b, a]);
+
+  // return [a, b, c, d, e, f];
+};
 
 describe("buildOrder", () => {
-  beforeEach(prepareProjects);
-
-  it("Should compile on the correct build order", () => {});
+  // it("Should compile on the correct build order", () => {
+  //   const projects = prepareProjects();
+  //   const [a, b, c, d, e, f] = projects;
+  //   assert.deepEqual(buildOrder(projects), [c, d, b, a, e, f]);
+  // });
 });

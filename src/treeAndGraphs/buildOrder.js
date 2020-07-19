@@ -31,12 +31,11 @@ class Project {
 }
 
 const buildOrder = (projects) => {
-  const buildOrder = [];
+  let buildOrder = [];
   const isProjectOnQueue = (toFind) =>
-    buildOrder.indexOf(({ name }) => name === toFind);
+    buildOrder.findIndex(({ name }) => name === toFind);
 
   projects.forEach((project) => {
-    console.log(buildOrder);
     const projectQueueIndex = isProjectOnQueue(project.name);
     if (projectQueueIndex === -1) {
       buildOrder.push(project);
@@ -48,7 +47,11 @@ const buildOrder = (projects) => {
         buildOrder.unshift(dependency);
       }
 
-      if (dependencyQueueIndex !== -1 && projectQueueIndex !== -1) {
+      if (
+        dependencyQueueIndex !== -1 &&
+        projectQueueIndex !== -1 &&
+        dependencyQueueIndex > projectQueueIndex
+      ) {
         buildOrder = [
           ...buildOrder.slice(0, projectQueueIndex),
           dependency,
@@ -85,13 +88,13 @@ const prepareProjects = () => {
   const a = new Project("a", [b, d]);
   const f = new Project("f", [b, a]);
 
-  // return [a, b, c, d, e, f];
+  return [a, b, c, d, e, f];
 };
 
 describe("buildOrder", () => {
-  // it("Should compile on the correct build order", () => {
-  //   const projects = prepareProjects();
-  //   const [a, b, c, d, e, f] = projects;
-  //   assert.deepEqual(buildOrder(projects), [c, d, b, a, e, f]);
-  // });
+  it.only("Should compile on the correct build order", () => {
+    const projects = prepareProjects();
+    const [a, b, c, d, e, f] = projects;
+    assert.deepEqual(buildOrder(projects), [c, d, b, a, e, f]);
+  });
 });
